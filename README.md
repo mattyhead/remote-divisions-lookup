@@ -1,2 +1,2 @@
-### remote_divisions_lookup:
-#### quick and dirty division lookup.
+### remote-divisions-lookup:
+#### quick and dirty division lookup from Philly's findAddressCandidates GIS service.
