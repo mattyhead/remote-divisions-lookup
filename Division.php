@@ -14,11 +14,11 @@ class Division
         // shape,score,match_addr,house,side,predir,pretype,streetname,suftype,sufdir,city,state,zip,ref_id,blockid,division,match,addr_type
         $fields = "division";
         $params = "Street=" . urlencode($address1) . "&outFields=" . urlencode($fields) . "&f=pjson";
-        try {
+        if (function_exists(curl_init)) {
             $curl = curl_init($url . "?" . $params);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        } catch (Exception $e) {
-            return array('status' => 'curl failure. not available?', 'exception' => $e);
+        } else {
+            return array('status' => 'failure', 'data' => array('message' => 'function \'curl_init\' not available.  is curl available?'));
         }
         try {
             $response = curl_exec($curl);
@@ -49,8 +49,8 @@ class Division
                     break;
             }
         } catch (Exception $e) {
-            return array('status' => 'retrieval failure', 'exception' => $e);
+            return array('status' => 'failure', 'data' => array('message' => 'retrieval failure.', 'exception' => $e));
         }
-        return array('status' => 'success', 'division' => $division, 'lon' => $lon, 'lat' => $lat, 'data' => $json);
+        return array('status' => 'success', 'data' => array('message' => '', 'division' => $division, 'lon' => $lon, 'lat' => $lat, 'response' => $json));
     }
 }
